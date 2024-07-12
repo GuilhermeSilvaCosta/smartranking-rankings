@@ -23,7 +23,7 @@ class Ranking {
   operation: string;
 
   @Prop()
-  points: number;
+  score: number;
 }
 
 export const RankingSchema = SchemaFactory.createForClass(Ranking);

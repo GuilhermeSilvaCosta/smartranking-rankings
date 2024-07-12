@@ -1,7 +1,8 @@
 import { Controller, Logger } from '@nestjs/common';
-import { EventPattern, Payload } from '@nestjs/microservices';
+import { EventPattern, MessagePattern, Payload } from '@nestjs/microservices';
 import { Match } from './interfaces/match.interface';
 import { RankingsService } from './rankings.service';
+import { RankingResponse } from './interfaces/ranking-response.interface';
 
 @Controller('rankings')
 export class RankingsController {
@@ -11,7 +12,14 @@ export class RankingsController {
 
   @EventPattern('process-match')
   processMatch(@Payload() match: Match) {
-    console.log(`match: ${JSON.stringify(match)}`);
+    this.logger.log(`match: ${JSON.stringify(match)}`);
     this.rankgingsService.processMatch(match);
+  }
+
+  @MessagePattern('list-rankings')
+  listRanking(
+    @Payload() { categoryId, reference },
+  ): Promise<RankingResponse[]> {
+    return this.rankgingsService.list(categoryId, reference);
   }
 }

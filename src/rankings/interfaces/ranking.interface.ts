@@ -12,5 +12,5 @@ export interface Ranking extends Document {
   player: string;
   event: EventEnum;
   operation: string;
-  points: number;
+  score: number;
 }
